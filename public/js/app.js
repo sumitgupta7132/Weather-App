@@ -6,14 +6,13 @@ weatherForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const location = search.value;
   messageOne.innerHTML = "<h1>Loading...</h1>";
-  fetch(`http://localhost:3000/weather?address=${location}`).then(
-    (response) => {
-      response.json().then((data) => {
-        if (data.error) {
-          messageOne.innerHTML = `<h1>${data.error}</h1>`;
-        } else {
-          const { icon, name, main, sys, weather } = data.response;
-          const elem = `<div class="flex items-center justify-center">
+  fetch(`/weather?address=${location}`).then((response) => {
+    response.json().then((data) => {
+      if (data.error) {
+        messageOne.innerHTML = `<h1>${data.error}</h1>`;
+      } else {
+        const { icon, name, main, sys, weather } = data.response;
+        const elem = `<div class="flex items-center justify-center">
           <div class="bg-white p-8 bg-opacity-80 rounded-3xl flex space-x-12 items-center shadow-md">
             <div>
               <img src=${icon}>
@@ -38,19 +37,18 @@ weatherForm.addEventListener("submit", (e) => {
               minute: "numeric",
               hour12: true,
             })} &nbsp&nbsp&nbsp 🌆${new Date(sys.sunset * 1000).toLocaleString(
-            "en-US",
-            {
-              hour: "numeric",
-              minute: "numeric",
-              hour12: true,
-            }
-          )}
+          "en-US",
+          {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          }
+        )}
           </div>
         
         </div>`;
-          messageOne.innerHTML = elem;
-        }
-      });
-    }
-  );
+        messageOne.innerHTML = elem;
+      }
+    });
+  });
 });
